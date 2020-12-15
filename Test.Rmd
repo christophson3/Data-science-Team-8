@@ -1,0 +1,45 @@
+```{r}
+library(readr)
+library(lubridate)
+library(ggplot2)
+library(dplyr)
+library(e1071)
+
+umsatzdaten <- read_csv("https://raw.githubusercontent.com/opencampus-sh/wise20-datascience/main/umsatzdaten_gekuerzt.csv")
+
+wetter <- read_csv("https://raw.githubusercontent.com/opencampus-sh/wise20-datascience/main/wetter.csv")
+
+kiwo <- read_csv("https://raw.githubusercontent.com/opencampus-sh/wise20-datascience/main/kiwo.csv")
+
+#holidays <- read_csv("https://raw.githubusercontent.com/christophson3/Data-science-Team-8/main/Dataset_Public_holidays.csv?token=AR5YZ5U2F4GYFQPORVSFSOK73DJZ4")
+
+
+# Erstellung der Variable mit dem Wochentag
+umsatzdaten$Wochentag <- weekdays(umsatzdaten$Datum)
+
+```
+```{r}
+# alle daten zusammengeführt
+umsatzdaten_1 <- merge(umsatzdaten,wetter)
+# left join für die Daten saätz
+umsatzdaten_2 <- merge (x = umsatzdaten_1,y = holidays,all.x = TRUE)
+umsatzdaten <- merge(x = umsatzdaten_2,y =kiwo, all.x = TRUE)
+View(umsatzdaten)
+
+```
+
+
+```{r}
+# Testen der Daten auf Signifikanz
+mod <- lm(Umsatz ~ as.factor(Wertung) + as.factor(Wochentag) + Temperatur,umsatzdaten)
+summary(mod)
+```
+
+
+```{r}
+#support vector machine 
+
+
+
+```
+
