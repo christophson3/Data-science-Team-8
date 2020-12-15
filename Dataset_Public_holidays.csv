@@ -1,0 +1,203 @@
+Datum,Wochentag,Event,Beduetung,Wertung
+2013-01-01,Dienstag,New Year's Day,National holiday,1
+2013-02-11,Montag,Shrove Monday,"Observance, Christian",2
+2013-02-12,Dienstag,Carnival / Shrove Tuesday,"Observance, Christian",2
+2013-02-13,Mittwoch,Carnival / Ash Wednesday,Silent Day,2
+2013-02-14,Donnerstag,Valentine's Day,Observance,2
+2013-03-28,Donnerstag,Maundy Thursday,Silent Day,3
+2013-03-29,Freitag,Good Friday,"Silent Day, public holiday",2
+2013-03-31,Sonntag,Easter Sunday,Silent Day,1
+2013-04-01,Montag,Easter Monday,"National holiday, Christian",1
+2013-05-01,Mittwoch,May Day,National holiday,3
+2013-05-09,Donnerstag,Father's Day,Observance,2
+2013-05-12,Sonntag,Mother's Day,Observance,2
+2013-05-19,Sonntag,Whit Sunday,"Observance, Christian",3
+2013-05-20,Montag,Whit Monday,"National holiday, Christian",3
+2013-10-03,Donnerstag,Day of German Unity,National holiday,2
+2013-10-31,Donnerstag,Halloween,Observance,2
+2013-11-11,Montag,St. Martin's Day,"Observance, Christian",2
+2013-11-17,Sonntag,National Day of Mourning,Silent Day,3
+2013-11-24,Sonntag,Sunday of the Dead,Silent Day,3
+2013-12-01,Sonntag,First Advent Sunday,"Observance, Christian",2
+2013-12-06,Freitag,Saint Nicholas Day,"Observance, Christian",2
+2013-12-08,Sonntag,Second Advent Sunday,"Observance, Christian",2
+2013-12-15,Sonntag,Third Advent Sunday,"Observance, Christian",2
+2013-12-22,Sonntag,Fourth Advent Sunday,"Observance, Christian",2
+2013-12-24,Dienstag,Christmas Eve,Silent Day,1
+2013-12-25,Mittwoch,Christmas Day,"National holiday, Christian",1
+2013-12-26,Donnerstag,Boxing Day,"National holiday, Christian",1
+2013-12-31,Dienstag,New Year's Eve,Bank holiday,1
+2014-01-01,Mittwoch,New Year's Day,National holiday,1
+2014-02-14,Freitag,Valentine's Day,Observance,2
+2014-03-03,Montag,Shrove Monday,"Observance, Christian",2
+2014-03-04,Dienstag,Carnival / Shrove Tuesday,"Observance, Christian",2
+2014-03-05,Mittwoch,Carnival / Ash Wednesday,Silent Day,2
+2014-04-17,Donnerstag,Maundy Thursday,Silent Day,3
+2014-04-18,Freitag,Good Friday,"Silent Day, public holiday",2
+2014-04-20,Sonntag,Easter Sunday,Silent Day,1
+2014-04-21,Montag,Easter Monday,"National holiday, Christian",1
+2014-05-01,Donnerstag,May Day,National holiday,3
+2014-05-11,Sonntag,Mother's Day,Observance,2
+2014-05-29,Donnerstag,Father's Day,Observance,2
+2014-05-29,Donnerstag,Ascension Day,"National holiday, Christian",3
+2014-06-08,Sonntag,Whit Sunday,"Observance, Christian",3
+2014-06-09,Montag,Whit Monday,"National holiday, Christian",3
+2014-10-03,Freitag,Day of German Unity,National holiday,2
+2014-10-31,Freitag,Halloween,Observance,2
+2014-11-11,Dienstag,St. Martin's Day,"Observance, Christian",2
+2014-11-16,Sonntag,National Day of Mourning,Silent Day,3
+2014-11-23,Sonntag,Sunday of the Dead,Silent Day,3
+2014-11-30,Sonntag,First Advent Sunday,"Observance, Christian",2
+2014-12-06,Samstag,Saint Nicholas Day,"Observance, Christian",2
+2014-12-07,Sonntag,Second Advent Sunday,"Observance, Christian",2
+2014-12-14,Sonntag,Third Advent Sunday,"Observance, Christian",2
+2014-12-21,Sonntag,Fourth Advent Sunday,"Observance, Christian",2
+2014-12-24,Mittwoch,Christmas Eve,Silent Day,1
+2014-12-25,Donnerstag,Christmas Day,"National holiday, Christian",1
+2014-12-26,Freitag,Boxing Day,"National holiday, Christian",1
+2014-12-31,Mittwoch,New Year's Eve,Bank holiday,1
+2015-01-01,Donnerstag,New Year's Day,National holiday,1
+2015-02-14,Samstag,Valentine's Day,Observance,2
+2015-02-16,Montag,Shrove Monday,"Observance, Christian",2
+2015-02-17,Dienstag,Carnival / Shrove Tuesday,"Observance, Christian",2
+2015-02-18,Mittwoch,Carnival / Ash Wednesday,Silent Day,2
+2015-04-02,Donnerstag,Maundy Thursday,Silent Day,3
+2015-04-03,Freitag,Good Friday,"Silent Day, public holiday",2
+2015-04-05,Sonntag,Easter Sunday,Silent Day,1
+2015-04-06,Montag,Easter Monday,"National holiday, Christian",1
+2015-05-01,Freitag,May Day,National holiday,3
+2015-05-10,Sonntag,Mother's Day,Observance,2
+2015-05-14,Donnerstag,Father's Day,Observance,2
+2015-05-14,Donnerstag,Ascension Day,"National holiday, Christian",3
+2015-05-24,Sonntag,Whit Sunday,"Observance, Christian",3
+2015-05-25,Montag,Whit Monday,"National holiday, Christian",3
+2015-10-03,Samstag,Day of German Unity,National holiday,2
+2015-10-31,Samstag,Halloween,Observance,2
+2015-11-11,Mittwoch,St. Martin's Day,"Observance, Christian",2
+2015-11-15,Sonntag,National Day of Mourning,Silent Day,3
+2015-11-22,Sonntag,Sunday of the Dead,Silent Day,3
+2015-11-29,Sonntag,First Advent Sunday,"Observance, Christian",2
+2015-12-06,Sonntag,Saint Nicholas Day,"Observance, Christian",2
+2015-12-06,Sonntag,Second Advent Sunday,"Observance, Christian",2
+2015-12-13,Sonntag,Third Advent Sunday,"Observance, Christian",2
+2015-12-20,Sonntag,Fourth Advent Sunday,"Observance, Christian",2
+2015-12-24,Donnerstag,Christmas Eve,Silent Day,1
+2015-12-25,Freitag,Christmas Day,"National holiday, Christian",1
+2015-12-26,Samstag,Boxing Day,"National holiday, Christian",1
+2015-12-31,Donnerstag,New Year's Eve,Bank holiday,1
+2016-01-01,Freitag,New Year's Day,National holiday,1
+2016-02-08,Montag,Shrove Monday,"Observance, Christian",2
+2016-02-09,Dienstag,Carnival / Shrove Tuesday,"Observance, Christian",2
+2016-02-10,Mittwoch,Carnival / Ash Wednesday,Silent Day,2
+2016-02-14,Sonntag,Valentine's Day,Observance,2
+2016-03-24,Donnerstag,Maundy Thursday,Silent Day,3
+2016-03-25,Freitag,Good Friday,"Silent Day, public holiday",2
+2016-03-27,Sonntag,Easter Sunday,Silent Day,1
+2016-03-28,Montag,Easter Monday,"National holiday, Christian",1
+2016-05-01,Sonntag,May Day,National holiday,3
+2016-05-05,Donnerstag,Father's Day,Observance,2
+2016-05-05,Donnerstag,Ascension Day,"National holiday, Christian",3
+2016-05-08,Sonntag,Mother's Day,Observance,2
+2016-05-15,Sonntag,Whit Sunday,"Observance, Christian",3
+2016-05-16,Montag,Whit Monday,"National holiday, Christian",3
+2016-10-03,Montag,Day of German Unity,National holiday,2
+2016-10-31,Montag,Halloween,Observance,2
+2016-11-11,Freitag,St. Martin's Day,"Observance, Christian",2
+2016-11-13,Sonntag,National Day of Mourning,Silent Day,3
+2016-11-20,Sonntag,Sunday of the Dead,Silent Day,3
+2016-11-27,Sonntag,First Advent Sunday,"Observance, Christian",2
+2016-12-04,Sonntag,Second Advent Sunday,"Observance, Christian",2
+2016-12-06,Dienstag,Saint Nicholas Day,"Observance, Christian",2
+2016-12-11,Sonntag,Third Advent Sunday,"Observance, Christian",2
+2016-12-18,Sonntag,Fourth Advent Sunday,"Observance, Christian",2
+2016-12-24,Samstag,Christmas Eve,Silent Day,1
+2016-12-25,Sonntag,Christmas Day,"National holiday, Christian",1
+2016-12-26,Montag,Boxing Day,"National holiday, Christian",1
+2016-12-31,Samstag,New Year's Eve,Bank holiday,1
+2017-01-01,Sonntag,New Year's Day,National holiday,1
+2017-02-14,Dienstag,Valentine's Day,Observance,2
+2017-02-27,Montag,Shrove Monday,"Observance, Christian",2
+2017-02-28,Dienstag,Carnival / Shrove Tuesday,"Observance, Christian",2
+2017-03-01,Mittwoch,Carnival / Ash Wednesday,Silent Day,2
+2017-04-13,Donnerstag,Maundy Thursday,Silent Day,3
+2017-04-14,Freitag,Good Friday,"Silent Day, public holiday",2
+2017-04-16,Sonntag,Easter Sunday,Silent Day,1
+2017-04-17,Montag,Easter Monday,"National holiday, Christian",1
+2017-05-01,Montag,May Day,National holiday,3
+2017-05-14,Sonntag,Mother's Day,Observance,2
+2017-05-25,Donnerstag,Father's Day,Observance,2
+2017-05-25,Donnerstag,Ascension Day,"National holiday, Christian",3
+2017-06-04,Sonntag,Whit Sunday,"Observance, Christian",3
+2017-06-05,Montag,Whit Monday,"National holiday, Christian",3
+2017-10-03,Dienstag,Day of German Unity,National holiday,2
+2017-10-31,Dienstag,Halloween,Observance,2
+2017-11-11,Samstag,St. Martin's Day,"Observance, Christian",2
+2017-11-19,Sonntag,National Day of Mourning,Silent Day,3
+2017-11-26,Sonntag,Sunday of the Dead,Silent Day,3
+2017-12-03,Sonntag,First Advent Sunday,"Observance, Christian",2
+2017-12-06,Mittwoch,Saint Nicholas Day,"Observance, Christian",2
+2017-12-10,Sonntag,Second Advent Sunday,"Observance, Christian",2
+2017-12-17,Sonntag,Third Advent Sunday,"Observance, Christian",2
+2017-12-24,Sonntag,Christmas Eve,Silent Day,1
+2017-12-24,Sonntag,Fourth Advent Sunday,"Observance, Christian",2
+2017-12-25,Montag,Christmas Day,"National holiday, Christian",1
+2017-12-26,Dienstag,Boxing Day,"National holiday, Christian",1
+2017-12-31,Sonntag,New Year's Eve,Bank holiday,1
+2018-01-01,Sonntag,New Year's Day,National holiday,1
+2018-02-14,Dienstag,Valentine's Day,Observance,2
+2018-02-27,Montag,Shrove Monday,"Observance, Christian",2
+2018-02-28,Dienstag,Carnival / Shrove Tuesday,"Observance, Christian",2
+2018-03-01,Mittwoch,Carnival / Ash Wednesday,Silent Day,2
+2018-04-13,Donnerstag,Maundy Thursday,Silent Day,3
+2018-04-14,Freitag,Good Friday,"Silent Day, public holiday",2
+2018-04-16,Sonntag,Easter Sunday,Silent Day,1
+2018-04-17,Montag,Easter Monday,"National holiday, Christian",1
+2018-05-01,Montag,May Day,National holiday,3
+2018-05-14,Sonntag,Mother's Day,Observance,2
+2018-05-25,Donnerstag,Father's Day,Observance,2
+2018-05-25,Donnerstag,Ascension Day,"National holiday, Christian",3
+2018-06-04,Sonntag,Whit Sunday,"Observance, Christian",3
+2018-06-05,Montag,Whit Monday,"National holiday, Christian",3
+2018-10-03,Dienstag,Day of German Unity,National holiday,2
+2018-10-31,Dienstag,Halloween,Observance,2
+2018-11-11,Samstag,St. Martin's Day,"Observance, Christian",2
+2018-11-19,Sonntag,National Day of Mourning,Silent Day,3
+2018-11-26,Sonntag,Sunday of the Dead,Silent Day,3
+2018-12-03,Sonntag,First Advent Sunday,"Observance, Christian",2
+2018-12-06,Mittwoch,Saint Nicholas Day,"Observance, Christian",2
+2018-12-10,Sonntag,Second Advent Sunday,"Observance, Christian",2
+2018-12-17,Sonntag,Third Advent Sunday,"Observance, Christian",2
+2018-12-24,Sonntag,Christmas Eve,Silent Day,1
+2018-12-24,Sonntag,Fourth Advent Sunday,"Observance, Christian",2
+2018-12-25,Montag,Christmas Day,"National holiday, Christian",1
+2018-12-26,Dienstag,Boxing Day,"National holiday, Christian",1
+2018-12-31,Sonntag,New Year's Eve,Bank holiday,1
+2019-01-01,Dienstag,New Year's Day,National holiday,1
+2019-02-14,Donnerstag,Valentine's Day,Observance,2
+2019-03-04,Montag,Shrove Monday,"Observance, Christian",2
+2019-03-05,Dienstag,Carnival / Shrove Tuesday,"Observance, Christian",2
+2019-03-06,Mittwoch,Carnival / Ash Wednesday,Silent Day,2
+2019-04-18,Donnerstag,Maundy Thursday,Silent Day,3
+2019-04-19,Freitag,Good Friday,"Silent Day, public holiday",2
+2019-04-21,Sonntag,Easter Sunday,Silent Day,1
+2019-04-22,Montag,Easter Monday,"National holiday, Christian",1
+2019-05-01,Mittwoch,May Day,National holiday,3
+2019-05-12,Sonntag,Mother's Day,Observance,2
+2019-05-30,Donnerstag,Father's Day,Observance,2
+2019-05-30,Donnerstag,Ascension Day,"National holiday, Christian",3
+2019-06-09,Sonntag,Whit Sunday,"Observance, Christian",3
+2019-06-10,Montag,Whit Monday,"National holiday, Christian",3
+2019-10-03,Donnerstag,Day of German Unity,National holiday,2
+2019-10-31,Donnerstag,Halloween,Observance,2
+2019-11-11,Montag,St. Martin's Day,"Observance, Christian",2
+2019-11-17,Sonntag,National Day of Mourning,Silent Day,3
+2019-11-24,Sonntag,Sunday of the Dead,Silent Day,3
+2019-12-01,Sonntag,First Advent Sunday,"Observance, Christian",2
+2019-12-06,Freitag,Saint Nicholas Day,"Observance, Christian",2
+2019-12-08,Sonntag,Second Advent Sunday,"Observance, Christian",2
+2019-12-15,Sonntag,Third Advent Sunday,"Observance, Christian",2
+2019-12-22,Sonntag,Fourth Advent Sunday,"Observance, Christian",2
+2019-12-24,Dienstag,Christmas Eve,Silent Day,1
+2019-12-25,Mittwoch,Christmas Day,"National holiday, Christian",1
+2019-12-26,Donnerstag,Boxing Day,"National holiday, Christian",1
+2019-12-31,Dienstag,New Year's Eve,Bank holiday,1
