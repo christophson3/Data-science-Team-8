@@ -11,7 +11,11 @@ wetter <- read_csv("https://raw.githubusercontent.com/opencampus-sh/wise20-datas
 
 kiwo <- read_csv("https://raw.githubusercontent.com/opencampus-sh/wise20-datascience/main/kiwo.csv")
 
-#holidays <- read_csv("https://raw.githubusercontent.com/christophson3/Data-science-Team-8/main/Dataset_Public_holidays.csv?token=AR5YZ5U2F4GYFQPORVSFSOK73DJZ4")
+# dieser Teil funktioniert mancheml nicht, dann einfach den aktuellen Link einfügen dann funktioniert das wieder
+holidays <- read_csv("https://raw.githubusercontent.com/christophson3/Data-science-Team-8/main/Dataset_Public_holidays.csv?token=AR5YZ5U2F4GYFQPORVSFSOK73DJZ4")
+
+#variabel Umsatz des Vortages
+umsatzdaten <- mutate(umsatzdaten,Vortagumsatz = lag(Umsatz))
 
 
 # Erstellung der Variable mit dem Wochentag
