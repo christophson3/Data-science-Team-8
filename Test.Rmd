@@ -15,6 +15,7 @@ kiwo <- read_csv("https://raw.githubusercontent.com/opencampus-sh/wise20-datasci
 holidays <- read_csv("https://raw.githubusercontent.com/christophson3/Data-science-Team-8/main/Dataset_Public_holidays.csv?token=AR5YZ5U2F4GYFQPORVSFSOK73DJZ4")
 
 #variabel Umsatz des Vortages
+#ist leider nicht ganz richtig weil ich die Warengruppen nicht berücksichtig habe: korrigierte Version folgt
 umsatzdaten <- mutate(umsatzdaten,Vortagumsatz = lag(Umsatz))
 
 
@@ -39,7 +40,7 @@ mod <- lm(Umsatz ~ as.factor(Wertung) + as.factor(Wochentag) + Temperatur,umsatz
 summary(mod)
 ```
 
-## Die SVM aus der VEranstaltung umgebastelt
+## Die SVM aus der VEranstaltung umgebastelt funktioniert bis jetzt noch nicht 
 ```{r}
 ## Aufteilung des Datensatzes in Trainings- und Testdaten
 
