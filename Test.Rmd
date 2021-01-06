@@ -104,13 +104,13 @@ test_dataset <- umsatzdaten[-indices_train, ]
 ```{r}
 # Estimation of an SVM with optimized weighting parameters and given standard hyper parameters
 # Typically not used; instead, the function svm_tune is used in order to also get a model with optimized hyper parameters
-model_svm <- svm(Umsatz ~ Vortagumsatz, train_dataset)
+model_svm <- svm(Umsatz ~ Vortagsumsatz, train_dataset)
 ```
 
 ```{r}
 # Estimation of various SVM (each with optimized weighting parameters) using systematically varied hyper parameters (typically called 'grid search' approach) and cross validation
 # the resulting object includes the optimal model in the element named 'best.model'
-svm_tune <- tune(svm, Umsatz ~ Vortagumsatz + Temperatur + Wettercode + Bewoelkung, data=train_dataset,
+svm_tune <- tune(svm, Umsatz ~ Vortagsumsatz + Temperatur + Wettercode + Bewoelkung, data=train_dataset,
                  ranges = list(epsilon = seq(0.2,1,0.1), cost = 2^(2:3)))
 ```
 
