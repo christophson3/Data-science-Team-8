@@ -69,6 +69,9 @@ umsatzdaten <- subset(umsatzdaten,select = -c(Event,Beduetung))
 umsatzdaten <- mutate(umsatzdaten, KielerWoche = if (is.na(KielerWoche)){KielerWoche = FALSE} else {KielerWoche = TRUE})
 
 # Wetterdaten: Wettercode: auffüllen der fehlenden Tage durch mittelwert
+mittelWertWettercode <- round(mean(umsatzdaten$Wettercode,na.rm = TRUE))
+
+umsatzdaten <- mutate(umsatzdaten,Wettercode = if (is.na(Wettercode)){Wettercode = mittelWertWettercode})
 
 ```
 
