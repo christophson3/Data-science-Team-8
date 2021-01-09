@@ -1,0 +1,92 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+' Laden der Pakete 
+```{r}
+library(readr)
+library(lubridate)
+library(Metrics)
+library(ggplot2)
+library(dplyr)
+library(e1071)
+
+```
+#lesen der Daten 
+```{r}
+umsatzdaten <- read_csv("https://raw.githubusercontent.com/opencampus-sh/wise20-datascience/main/umsatzdaten_gekuerzt.csv")
+
+wetter <- read_csv("https://raw.githubusercontent.com/opencampus-sh/wise20-datascience/main/wetter.csv")
+
+kiwo <- read_csv("https://raw.githubusercontent.com/opencampus-sh/wise20-datascience/main/kiwo.csv")
+
+holidays <- read_csv("https://raw.githubusercontent.com/christophson3/Data-science-Team-8/main/Dataset_Public_holidays.csv?token=AR5YZ5ULARGZLUTID6VXTFK77GDXU")
+```
+# Erstellen der Sondervariabeln
+```{r}
+
+# Erstellung der Variable mit dem Wochentag
+umsatzdaten$Wochentag <- weekdays(umsatzdaten$Datum)
+
+#variabel Umsatz des Vortages
+#umsatzdaten <- mutate(umsatzdaten,Vortagumsatz = lag(Umsatz))
+#umsatzdaten %>% group_by(Warengruppe) %>%  mutate(umsatzdaten, Vortagumsatz = lag(Umsatz))
+zumsatzdaten <- group_split(umsatzdaten,Warengruppe)
+
+umsatzdaten1 <- mutate(zumsatzdaten[[1]], Vortagsumsatz = lag(Umsatz))
+umsatzdaten2 <- mutate(zumsatzdaten[[2]], Vortagsumsatz = lag(Umsatz))
+umsatzdaten3 <- mutate(zumsatzdaten[[3]], Vortagsumsatz = lag(Umsatz))
+umsatzdaten4 <- mutate(zumsatzdaten[[4]], Vortagsumsatz = lag(Umsatz))
+umsatzdaten5 <- mutate(zumsatzdaten[[5]], Vortagsumsatz = lag(Umsatz))
+umsatzdaten6 <- mutate(zumsatzdaten[[6]], Vortagsumsatz = lag(Umsatz))
+
+umsatzdaten <- full_join(umsatzdaten1,umsatzdaten2)
+umsatzdaten <- full_join(umsatzdaten,umsatzdaten3)
+umsatzdaten <- full_join(umsatzdaten,umsatzdaten4)
+umsatzdaten <- full_join(umsatzdaten,umsatzdaten5)
+umsatzdaten <- full_join(umsatzdaten,umsatzdaten6)
+#View(umsatzdaten)
+```
+# Join der Datensätze 
+```{r}
+# alle daten zusammengeführt
+umsatzdaten <- full_join(umsatzdaten,wetter)
+# full join für die Daten 
+umsatzdaten<- full_join (umsatzdaten_1, holidays)
+umsatzdaten <- full_join(umsatzdaten_2,kiwo)
+#View(umsatzdaten)
+
+
+```
+# Aufraümen mit den Daten
+```{r}
+# alle N.A von Vortagsumsatz löschen
+umsatzdaten <- filter(umsatzdaten, !is.na(Vortagsumsatz))
+
+# Holidays: auffüllen der nicht Feiertage + Löschen der unötigen Zeilen
+#1 Feiertag mit hoher relevanz (Weihnachten, Ostern), 
+#2 Feiertag mit weniger hoher Relevanz (Halloween), 
+#3 Feiertag mit kaum Relevanz (Himmelfahrt und Totensonntag), 
+#4 kein Feiertag
+
+umsatzdaten <- mutate(umsatzdaten,Wertung = if (is.na(Wertung)){Wertung = 4})
+
+# löschen von Event und Bedeutung
+umsatzdaten <- subset(umsatzdaten,select = -c(Event,Beduetung))
+
+#KIWO in TRUE und FALSE um rechnen
+umsatzdaten <- mutate(umsatzdaten, KielerWoche = if (is.na(KielerWoche)){KielerWoche = FALSE} else {KielerWoche = TRUE})
+
+# Wetterdaten: Wettercode: auffüllen der fehlenden Tage durch mittelwert
+mittelWertWettercode <- round(mean(umsatzdaten$Wettercode,na.rm = TRUE))
+
+umsatzdaten <- mutate(umsatzdaten,Wettercode = if (is.na(Wettercode)){Wettercode = mittelWertWettercode})
+
+full_dataset <- umsatzdaten
+umsatzdaten <- filter(arrange(umsatzdaten,Datum), !is.na(Umsatz))
+```
+# Export der Daten als csv
+
+```{r}
+write.csv(umsatzdaten, "umsatzdaten.csv")
+```
