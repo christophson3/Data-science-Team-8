@@ -1,0 +1,92 @@
+```{r}
+library(readr)
+library(Metrics)
+library(ggplot2)
+library(dplyr)
+library(e1071)
+
+```
+# Laden der Daten 
+```{r}
+umsatzdaten <- read_csv("https://raw.githubusercontent.com/christophson3/Data-science-Team-8/main/umsatzdaten.csv", 
+    col_types = cols(X1 = col_skip()))
+#View(umsatzdaten)
+```
+
+
+```{r}
+## Aufteilung des Datensatzes in Trainings- und Testdaten
+
+# Zufallszähler setzen (um die zufällige Partitionierung bei jedem Durchlauf gleich zu halten)
+set.seed(1)
+
+# Zufällige Ziehung von Indizes für die Zeilen des Datensatzes, die dem Traininsdatensatz zugeordnet werden
+indices_train <- sample(seq_len(nrow(umsatzdaten)), size = floor(0.80 * nrow(umsatzdaten)))
+
+# Definition des Trainings- und Testdatensatz durch Selektion bzw. Deselektion der entsprechenden Datenzeilen
+train_dataset <- train_dataset_org <- umsatzdaten[indices_train, ]
+test_dataset <- umsatzdaten[-indices_train, ]
+```
+
+
+## Data Preparation
+
+```{r}
+# Uncomment the next line if you want to check the correctness of your following code for the svm estimation with a small (and computationally fast) part of the training data set
+train_dataset <- sample_frac(train_dataset_org, .10)
+```
+
+
+## Training the SVM
+
+```{r}
+# Estimation of an SVM with optimized weighting parameters and given standard hyper parameters
+# Typically not used; instead, the function svm_tune is used in order to also get a model with optimized hyper parameters
+model_svm <- svm(Umsatz ~ Vortagsumsatz, train_dataset)
+```
+
+```{r}
+# Estimation of various SVM (each with optimized weighting parameters) using systematically varied hyper parameters (typically called 'grid search' approach) and cross validation
+# the resulting object includes the optimal model in the element named 'best.model'
+svm_tune <- tune(svm, Umsatz ~ Vortagsumsatz + Temperatur + Warengruppe + KielerWoche, data=train_dataset,
+                 ranges = list(epsilon = seq(0.2,1,0.1), cost = 2^(2:3)))
+```
+## Checking the Prediction Quality
+
+
+### Trainig Data
+
+SVM without cross validation and grid Search
+```{r}
+# Calculating the prediction for the training data using the best model according to the grid search
+pred_train <- predict(model_svm, train_dataset)
+# Calculating the prediction quality for the training data using the MAPE
+mape(train_dataset$Umsatz, pred_train)
+
+```
+
+SVM with cross validation and grid Search
+```{r}
+# Calculating the prediction for the training data using the best model according to the grid search
+pred_train <- predict(svm_tune$best.model, train_dataset)
+# Calculating the prediction quality for the training data using the MAPE
+mape(train_dataset$Umsatz, pred_train)
+```
+
+### Test Data
+
+SVM without cross validation and grid Search
+```{r}
+# Calculating the prediction for the test data using the best model according to the grid search
+pred_test <- predict(model_svm, test_dataset)
+# Calculating the prediction quality for the test data using the MAPE
+mape(test_dataset$Umsatz, pred_test)
+```
+
+SVM with cross validation and grid Search
+```{r}
+# Calculating the prediction for the test data using the best model according to the grid search
+pred_test <- predict(svm_tune$best.model, test_dataset)
+# Calculating the prediction quality for the test data using the MAPE
+mape(test_dataset$Umsatz, pred_test)
+```
