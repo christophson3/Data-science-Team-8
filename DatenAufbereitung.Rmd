@@ -73,13 +73,18 @@ umsatzdaten$Wertung <- replace_na(umsatzdaten$Wertung,4)
 umsatzdaten <- subset(umsatzdaten,select = -c(Event,Beduetung))
 
 #Auffüllen der Temperatur mit dem Mittelwert
-umsatzdaten$Temperatur <- replace_na(umsatzdaten$Temperatur,mean(umsatzdaten$Temperatur))
+mittelWertTemp <- mean(umsatzdaten$Temperatur,na.rm = TRUE)
+umsatzdaten$Temperatur <- replace_na(umsatzdaten$Temperatur,mittelWertTemp)
 
 #Auffüllen der Bewoelkung mit dem Mittelwert
-umsatzdaten$Bewoelkung <- replace_na(umsatzdaten$Bewoelkung,mean(umsatzdaten$Bewoelkung))
+mittelWertBewoelkung <- mean(umsatzdaten$Bewoelkung,na.rm = TRUE)
+umsatzdaten$Bewoelkung <- replace_na(umsatzdaten$Bewoelkung, mittelWertBewoelkung)
+
 
 #Auffüllen der Windgeschwindigkeit mit dem Mittelwert
-umsatzdaten$Windgeschwindigkeit <- replace_na(umsatzdaten$Windgeschwindigkeit,mean(umsatzdaten$Windgeschwindigkeit))
+mittelWertWind <- mean(umsatzdaten$Windgeschwindigkeit,na.rm = TRUE)
+
+umsatzdaten$Windgeschwindigkeit <- replace_na(umsatzdaten$Windgeschwindigkeit, mittelWertWind)
 
 #KIWO in TRUE und FALSE umrechnen
 umsatzdaten$KielerWoche <- replace_na(umsatzdaten$KielerWoche,FALSE)
