@@ -2,7 +2,7 @@
 title: "R Notebook"
 output: html_notebook
 ---
-' Laden der Pakete 
+# Laden der Pakete 
 ```{r}
 library(readr)
 library(lubridate)
@@ -10,6 +10,7 @@ library(Metrics)
 library(ggplot2)
 library(dplyr)
 library(e1071)
+library(tidyr)
 
 ```
 #lesen der Daten 
@@ -20,7 +21,7 @@ wetter <- read_csv("https://raw.githubusercontent.com/opencampus-sh/wise20-datas
 
 kiwo <- read_csv("https://raw.githubusercontent.com/opencampus-sh/wise20-datascience/main/kiwo.csv")
 
-holidays <- read_csv("https://raw.githubusercontent.com/christophson3/Data-science-Team-8/main/Dataset_Public_holidays.csv?token=AR5YZ5ULARGZLUTID6VXTFK77GDXU")
+holidays <- read_csv("https://raw.githubusercontent.com/christophson3/Data-science-Team-8/main/Dataset_Public_holidays.csv")
 ```
 # Erstellen der Sondervariabeln
 ```{r}
@@ -52,10 +53,10 @@ umsatzdaten <- full_join(umsatzdaten,umsatzdaten6)
 # alle daten zusammengeführt
 umsatzdaten <- full_join(umsatzdaten,wetter)
 # full join für die Daten 
-umsatzdaten<- full_join (umsatzdaten_1, holidays)
-umsatzdaten <- full_join(umsatzdaten_2,kiwo)
+umsatzdaten<- full_join (umsatzdaten,holidays)
+umsatzdaten <- full_join(umsatzdaten,kiwo)
 #View(umsatzdaten)
-
+check <- umsatzdaten
 
 ```
 # Aufraümen mit den Daten
@@ -69,18 +70,20 @@ umsatzdaten <- filter(umsatzdaten, !is.na(Vortagsumsatz))
 #3 Feiertag mit kaum Relevanz (Himmelfahrt und Totensonntag), 
 #4 kein Feiertag
 
-umsatzdaten <- mutate(umsatzdaten,Wertung = if (is.na(Wertung)){Wertung = 4})
+umsatzdaten$Wertung <- replace_na(umsatzdaten$Wertung,4)
 
 # löschen von Event und Bedeutung
 umsatzdaten <- subset(umsatzdaten,select = -c(Event,Beduetung))
 
-#KIWO in TRUE und FALSE um rechnen
-umsatzdaten <- mutate(umsatzdaten, KielerWoche = if (is.na(KielerWoche)){KielerWoche = FALSE} else {KielerWoche = TRUE})
+#KIWO in TRUE und FALSE umrechnen
+umsatzdaten$KielerWoche <- replace_na(umsatzdaten$KielerWoche,FALSE)
+
+umsatzdaten$KielerWoche <- replace(umsatzdaten$KielerWoche,umsatzdaten$KielerWoche == 1, TRUE)
 
 # Wetterdaten: Wettercode: auffüllen der fehlenden Tage durch mittelwert
 mittelWertWettercode <- round(mean(umsatzdaten$Wettercode,na.rm = TRUE))
 
-umsatzdaten <- mutate(umsatzdaten,Wettercode = if (is.na(Wettercode)){Wettercode = mittelWertWettercode})
+umsatzdaten$Wettercode <- replace_na(umsatzdaten$Wettercode, mittelWertWettercode)
 
 full_dataset <- umsatzdaten
 umsatzdaten <- filter(arrange(umsatzdaten,Datum), !is.na(Umsatz))
@@ -89,4 +92,5 @@ umsatzdaten <- filter(arrange(umsatzdaten,Datum), !is.na(Umsatz))
 
 ```{r}
 write.csv(umsatzdaten, "umsatzdaten.csv")
+write.csv(full_dataset, "full_dataset.csv")
 ```
