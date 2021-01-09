@@ -1,6 +1,7 @@
-#Boxplot mit KI für Vortag
 library(readr)
 umsatzdaten <- read_csv("https://raw.githubusercontent.com/christophson3/Data-science-Team-8/main/umsatzdaten.csv",     col_types = cols(X1 = col_skip()))
+
+####Boxplot mit KI für Vortagsumsatz sowie Warengruppe####
 
 #daten zusammenfassen und als Graphen darstellen
 library(ggplot2)
@@ -21,3 +22,23 @@ vum_wg_plot <- ggplot(cleandata, aes(x = Warengruppe, y=mean_um)) +
   theme_classic()
 
 vum_wg_plot
+
+
+
+
+####Boxplot mit KI für Bewölkung sowie Umsatz####
+cleandata_wert <- umsatzdaten %>%
+  group_by(Bewoelkung) %>%
+  summarize(mean_u = mean(Umsatz), sd_u = sd(Umsatz),
+            count = n(), se_u = (sd_u/sqrt(count)))
+View(cleandata_wert)
+
+um_WT_plot <- ggplot(cleandata_wert, aes(x = Bewoelkung, y=mean_u)) +
+  geom_bar(stat = "identity", color = "red",
+           position = position_dodge()
+  ) +
+  geom_errorbar(aes(ymin = mean_u-se_u, ymax = mean_u + se_u), width = .3
+  ) +
+  theme_classic()
+
+um_WT_plot
