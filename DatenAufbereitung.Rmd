@@ -51,18 +51,15 @@ umsatzdaten <- full_join(umsatzdaten,umsatzdaten6)
 # Join der Datensätze 
 ```{r}
 # alle daten zusammengeführt
-umsatzdaten <- full_join(umsatzdaten,wetter)
+umsatzdaten <- full_join(umsatzdaten,wetter, by = "Datum" )
 # full join für die Daten 
-umsatzdaten<- full_join (umsatzdaten,holidays)
-umsatzdaten <- full_join(umsatzdaten,kiwo)
-#View(umsatzdaten)
-check <- umsatzdaten
+umsatzdaten<- full_join (umsatzdaten,holidays, by = c("Datum", "Wochentag"))
+umsatzdaten <- full_join(umsatzdaten,kiwo, by = "Datum")
+
 
 ```
 # Aufraümen mit den Daten
 ```{r}
-# alle N.A von Vortagsumsatz löschen
-umsatzdaten <- filter(umsatzdaten, !is.na(Vortagsumsatz))
 
 # Holidays: auffüllen der nicht Feiertage + Löschen der unötigen Zeilen
 #1 Feiertag mit hoher relevanz (Weihnachten, Ostern), 
@@ -86,7 +83,14 @@ mittelWertWettercode <- round(mean(umsatzdaten$Wettercode,na.rm = TRUE))
 umsatzdaten$Wettercode <- replace_na(umsatzdaten$Wettercode, mittelWertWettercode)
 
 full_dataset <- umsatzdaten
+
+# alle N.A von Vortagsumsatz löschen
+umsatzdaten <- filter(umsatzdaten, !is.na(Vortagsumsatz))
+
 umsatzdaten <- filter(arrange(umsatzdaten,Datum), !is.na(Umsatz))
+
+
+
 ```
 # Export der Daten als csv
 
