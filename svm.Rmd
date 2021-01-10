@@ -73,6 +73,7 @@ pred_train <- predict(svm_tune$best.model, train_dataset)
 mape(train_dataset$Umsatz, pred_train)
 ```
 
+
 ### Test Data
 
 SVM without cross validation and grid Search
@@ -89,4 +90,34 @@ SVM with cross validation and grid Search
 pred_test <- predict(svm_tune$best.model, test_dataset)
 # Calculating the prediction quality for the test data using the MAPE
 mape(test_dataset$Umsatz, pred_test)
+```
+# MAPE je Warengruppe
+```{r}
+listofmape <- vector(mode = "list", 6)
+for (i in (1:6)){
+  pred_test <- predict(svm_tune$best.model, filter(test_dataset, Warengruppe == i))
+  lala <- filter(test_dataset,Warengruppe == i)
+  listofmape[i] <- mape (lala$Umsatz, pred_test)
+}
+``` 
+# Vorhersage für den 05 Juni 2019
+das funktioniert so leider nicht und ich finde den Fehler einfach nicht.
+die Vorhersage gibt bei mir immer 0 zurück
+```{r}
+
+newdata <- (filter(full_dataset, Datum == "2019-06-05"))
+newdata['Wochentag'] <- "Mittwoch"
+newdata <-rbind(newdata, newdata[rep(1, 5), ])
+
+data <- filter(umsatzdaten, Datum == "2019-06-04")
+
+
+for (i in (1:6)) {
+  
+  newdata[i,"Warengruppe"] <- i
+  newdata[i,"Vortagsumsatz"] <- data$Umsatz[i]
+  
+}
+
+pred <- predict(svm_tune$best.model, newdata = filter(newdata, Warengruppe == 1))
 ```
