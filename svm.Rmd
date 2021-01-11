@@ -111,11 +111,10 @@ newdata <-rbind(newdata, newdata[rep(1, 5), ])
 
 data <- filter(umsatzdaten, Datum == "2019-06-04")
 
-
 for (i in (1:6)) {
   
-  newdata[i,"Warengruppe"] <- i
-  newdata[i,"Vortagsumsatz"] <- data$Umsatz[i]
+  newdata$Warengruppe[[i]] <- i
+  newdata$Vortagsumsatz[[i]] <- data$Umsatz[i]
   
 }
 
