@@ -101,8 +101,6 @@ for (i in (1:6)){
 }
 ``` 
 # Vorhersage für den 05 Juni 2019
-das funktioniert so leider nicht und ich finde den Fehler einfach nicht.
-die Vorhersage gibt bei mir immer 0 zurück
 ```{r}
 
 newdata <- (filter(full_dataset, Datum == "2019-06-05"))
@@ -111,12 +109,19 @@ newdata <-rbind(newdata, newdata[rep(1, 5), ])
 
 data <- filter(umsatzdaten, Datum == "2019-06-04")
 
+
 for (i in (1:6)) {
   
   newdata$Warengruppe[[i]] <- i
   newdata$Vortagsumsatz[[i]] <- data$Umsatz[i]
-  
 }
+newdata$Vortagsumsatz[[6]] <- 0
+ModelVars = which(names(newdata) %in% 
+    c("Vortagsumsatz" ,"Temperatur" , "Warengruppe" , "Wertung" , "Wettercode" , "Bewoelkung" , "Windgeschwindigkeit" , "KielerWoche"))
+test2  = newdata[, ModelVars]
 
-pred <- predict(svm_tune$best.model, newdata = filter(newdata, Warengruppe == 1))
+
+pred <- predict(model_svm, test2)
+
+show(pred)
 ```
