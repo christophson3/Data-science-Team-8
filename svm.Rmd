@@ -10,6 +10,10 @@ library(e1071)
 ```{r}
 umsatzdaten <- read_csv("https://raw.githubusercontent.com/christophson3/Data-science-Team-8/main/umsatzdaten.csv", 
     col_types = cols(X1 = col_skip()))
+    
+full_dataset <- read_csv("https://raw.githubusercontent.com/christophson3/Data-science-Team-8/main/full_dataset.csv", 
+    col_types = cols(X1 = col_skip()))
+
 #View(umsatzdaten)
 ```
 
