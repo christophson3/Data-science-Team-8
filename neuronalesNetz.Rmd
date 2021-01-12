@@ -165,3 +165,12 @@ cat(paste0("\nTatsächlicher Umsatz:\t", test_actuals[100]))
 
 
 ```
+# Vorhersage für den 5.Juni 2019 je Warengruppen
+
+```{r}
+
+newdata_pred <- py$model$predict(newdata_dataset)
+newdata_predictions <- (newdata_pred * norm_values_list$sd[1]) + norm_values_list$mean[1]
+
+
+```
