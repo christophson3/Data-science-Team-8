@@ -8,7 +8,7 @@
 remove(list = ls())
 
 # Create list with needed libraries
-pkgs <- c("readr", "fastDummies")
+pkgs <- c("readr", "fastDummies","dplyr")
 
 # Load each listed library and check if it is installed and install if necessary
 for (pkg in pkgs) {
@@ -72,18 +72,34 @@ get.norm_values <- function (.data, select_columns = NULL) {
 umsatzdaten <- read_csv("https://raw.githubusercontent.com/christophson3/Data-science-Team-8/main/umsatzdaten.csv", 
                         col_types = cols(X1 = col_skip()))
 
+full_dataset <- read_csv("https://raw.githubusercontent.com/christophson3/Data-science-Team-8/main/full_dataset.csv", 
+                         col_types = cols(X1 = col_skip()))
 
+
+newdata <- (filter(full_dataset, Datum == "2019-06-05"))
+newdata['Wochentag'] <- "Mittwoch"
+newdata <-rbind(newdata, newdata[rep(1, 5), ])
+
+data <- filter(umsatzdaten, Datum == "2019-06-04")
+
+
+for (i in (1:6)) {
+  
+  newdata$Warengruppe[[i]] <- i
+  newdata$Vortagsumsatz[[i]] <- data$Umsatz[i]
+}
+newdata$Vortagsumsatz[[6]] <- 0
 ###################################################
 ### Data Preparation ####
+umsatzdaten <- rbind(umsatzdaten,newdata)
 
 # Recoding of the variables into one-hot encoded (dummy) variables
 dummy_list <- c("Wertung")
 umsatzdaten_dummy <- dummy_cols(umsatzdaten, dummy_list)
 
 # Definition of lists for each one-hot encoded variable (just to make the handling easier)
-#gruppen_dummies <- c('Warengrupe_1', 'Warengruppe_2', 'Warengruppe_3', 'Warengruppe_4','Warengruppe_5','Warengruppe_6')
 wertung_dummies <- c('Wertung_1', 'Wertung_2', 'Wertung_3', 'Wertung_4')
-#kiwo_dummies <- c('KIWO_1','KIWO_2')
+
 
 # Standardization of all variables (features and label)
 norm_list <- c("Umsatz","Windgeschwindigkeit","Wettercode","Vortagsumsatz","Bewoelkung","Temperatur","KielerWoche", wertung_dummies) # list of all relevant variables
@@ -99,7 +115,9 @@ features <- c('Windgeschwindigkeit','Wettercode', 'Vortagsumsatz', 'KielerWoche'
 # Selection of the label (the dependent variable)
 label <- 'Umsatz'
 
-
+newdata <- filter(umsatzdaten_norm, Datum == "2019-06-05")
+umsatzdaten_norm <- filter(umsatzdaten_norm, Datum != "2019-06-05")
+umsatzdaten <- filter(umsatzdaten, Datum!= "2019-06-05")
 ###################################################
 ### Selection of Training and Validation data ####
 
@@ -111,9 +129,8 @@ train_ind <- sample(seq_len(nrow(umsatzdaten_norm)), size = floor(0.66 * nrow(um
 # Splitting the data into training and validation data and selecting the feature variables as a separate data frame
 train_dataset <- umsatzdaten_norm[train_ind, features]
 test_dataset  <- umsatzdaten_norm[-train_ind, features]
-
+newdata_dataset <- newdata[,features]
 # Splitting the data into training and validation data and selecting the label variable as a separate vector
 train_labels <- umsatzdaten_norm[train_ind, label]
 test_labels <- umsatzdaten_norm[-train_ind, label]
-
 
