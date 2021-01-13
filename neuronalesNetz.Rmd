@@ -62,7 +62,7 @@ model = tf.keras.Sequential([
 model.compile(loss="mse", optimizer=tf.keras.optimizers.Adam(0.001))
 
 # Ausgabe einer Zusammenfassung zur Form des Modells, das geschaetzt wird (nicht notwendig)
-model.summary()
+#model.summary()
 
 
 ```
@@ -165,12 +165,45 @@ cat(paste0("\nTatsächlicher Umsatz:\t", test_actuals[100]))
 
 
 ```
+
+#MAPE je Warengruppe 
+```{r}
+# Schätzung der (normierten) Preise für die Trainings- und Testdaten
+#listofMAPES <- vector(mode = "list", length = 6)
+#hey <- 2.0344163 * norm_values_list$sd[13] + norm_values_list$mean[13]
+for (i in (1:6)){
+  lap <- paste('Warengruppe_',i, sep = "")
+  train_predictions_norm <- py$model$predict(filter(train_dataset, train_dataset[,lap] > 1.0))
+  #View(train_predictions_norm)
+  test_predictions_norm <- py$model$predict(filter(test_dataset,test_dataset[,lap] > 1.0 ))
+
+# Rückberechnung der normierten Preisschätzungen zu den tatsächlichen Preisschätzungen bzw. Preisen
+train_predictions <- (train_predictions_norm * norm_values_list$sd[1] ) + norm_values_list$mean[1]
+test_predictions <- (test_predictions_norm * norm_values_list$sd[1]) + norm_values_list$mean[1]
+# Selektion der zugehörigen tatsächlichen Preise
+
+train_actuals <- filter(umsatzdaten[train_ind,],Warengruppe == i)
+train_actuals <- train_actuals$Umsatz
+test_actuals <- filter(umsatzdaten[-train_ind,],Warengruppe == i)
+test_actuals <- test_actuals$Umsatz
+  
+# Vergleich der Gütekriterien für die Traingings- und Testdaten
+
+cat(paste0("\n",lap))
+cat(paste0("\nMAPE on the Training Data:\t", format(mape(train_actuals, train_predictions)*100, digits=3, nsmall=2)))
+cat(paste0("\nMAPE on the Validation Data:\t", format(mape(test_actuals, test_predictions)*100, digits=3, nsmall=2)))
+
+}
+
+
+```
 # Vorhersage für den 5.Juni 2019 je Warengruppen
 
 ```{r}
 
 newdata_pred <- py$model$predict(newdata_dataset)
 newdata_predictions <- (newdata_pred * norm_values_list$sd[1]) + norm_values_list$mean[1]
+
 
 
 ```
