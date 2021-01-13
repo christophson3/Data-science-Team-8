@@ -94,15 +94,16 @@ newdata$Vortagsumsatz[[6]] <- 0
 umsatzdaten <- rbind(umsatzdaten,newdata)
 
 # Recoding of the variables into one-hot encoded (dummy) variables
-dummy_list <- c("Wertung")
+dummy_list <- c("Wertung", "Warengruppe", "KielerWoche")
 umsatzdaten_dummy <- dummy_cols(umsatzdaten, dummy_list)
 
 # Definition of lists for each one-hot encoded variable (just to make the handling easier)
 wertung_dummies <- c('Wertung_1', 'Wertung_2', 'Wertung_3', 'Wertung_4')
-
+kiwo_dummies <- c('KielerWoche_0','KielerWoche_1')
+gruppen_dummies <- c('Warengruppe_1','Warengruppe_2','Warengruppe_3','Warengruppe_4','Warengruppe_5','Warengruppe_6')
 
 # Standardization of all variables (features and label)
-norm_list <- c("Umsatz","Windgeschwindigkeit","Wettercode","Vortagsumsatz","Bewoelkung","Temperatur","KielerWoche", wertung_dummies) # list of all relevant variables
+norm_list <- c("Umsatz","Windgeschwindigkeit","Wettercode","Vortagsumsatz","Bewoelkung","Temperatur",kiwo_dummies, wertung_dummies, gruppen_dummies) # list of all relevant variables
 norm_values_list <- get.norm_values(umsatzdaten_dummy, norm_list)    # Calculation of the means and standard deviations
 umsatzdaten_norm = norm_cols(umsatzdaten_dummy, norm_values_list)   # Standardization of the variables
 
@@ -111,13 +112,14 @@ umsatzdaten_norm = norm_cols(umsatzdaten_dummy, norm_values_list)   # Standardiz
 ### Selection of the Feature Variables and the Label Variable ####
 
 # Selection of the features (the independent variables used to predict the dependent)
-features <- c('Windgeschwindigkeit','Wettercode', 'Vortagsumsatz', 'KielerWoche', 'Bewoelkung','Temperatur', wertung_dummies)
+features <- c('Windgeschwindigkeit','Wettercode', 'Vortagsumsatz', 'Bewoelkung','Temperatur', wertung_dummies,kiwo_dummies ,gruppen_dummies)
 # Selection of the label (the dependent variable)
-label <- 'Umsatz'
+label <- c('Umsatz')
 
 newdata <- filter(umsatzdaten_norm, Datum == "2019-06-05")
 umsatzdaten_norm <- filter(umsatzdaten_norm, Datum != "2019-06-05")
 umsatzdaten <- filter(umsatzdaten, Datum!= "2019-06-05")
+
 ###################################################
 ### Selection of Training and Validation data ####
 
@@ -133,4 +135,6 @@ newdata_dataset <- newdata[,features]
 # Splitting the data into training and validation data and selecting the label variable as a separate vector
 train_labels <- umsatzdaten_norm[train_ind, label]
 test_labels <- umsatzdaten_norm[-train_ind, label]
+
+
 
