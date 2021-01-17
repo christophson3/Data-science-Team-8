@@ -125,6 +125,8 @@ umsatzdaten$Vortagsumsatz[is.na(umsatzdaten$Vortagsumsatz)] <- umsatzdaten$Umsat
 
 full_dataset <- umsatzdaten
 
+umsatzdaten <- filter(arrange(umsatzdaten,Datum), !is.na(Umsatz))
+
 ```
 # Export der Daten als csv
 
