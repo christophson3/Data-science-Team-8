@@ -24,10 +24,7 @@ umsatzdaten$Wertung <- factor(umsatzdaten$Wertung)
 full_dataset$Wertung <- factor(full_dataset$Wertung)
 umsatzdaten$KielerWoche <- factor(umsatzdaten$KielerWoche)
 full_dataset$KielerWoche <- factor(full_dataset$KielerWoche)
-umsatzdaten$Wochentag <- factor(umsatzdaten$Wochentag)
-full_dataset$Wochentag <- factor(full_dataset$Wochentag)
 
-#levels(umsatzdaten$Wochentag)
 ```
 
 # Aufteilung des Datensatzes in Trainings- und Testdaten
@@ -58,7 +55,7 @@ test_dataset = test_dataset[-1,]
 ```{r}
 # Estimation of various SVM (each with optimized weighting parameters) using systematically varied hyper parameters (typically called 'grid search' approach) and cross validation
 # the resulting object includes the optimal model in the element named 'best.model'
-svm_tune <- tune(svm, Umsatz ~ Vortagsumsatz + Temperatur + as.factor(Warengruppe) + as.factor(Wertung) + Umsatz_Vorwoche + Wettercode + Bewoelkung + Windgeschwindigkeit + as.factor(KielerWoche) + as.factor(Wochentag), data=train_dataset, ranges = list(epsilon = seq(0.2,1,0.1), cost = 2^(1:3)))
+svm_tune <- tune(svm, Umsatz ~ Vortagsumsatz + Temperatur + as.factor(Warengruppe) + as.factor(Wertung) + Umsatz_Vorwoche + Wettercode + Bewoelkung + Windgeschwindigkeit + as.factor(KielerWoche), data=train_dataset, ranges = list(epsilon = seq(0.2,1,0.1), cost = 2^(1:3)))
 ```
 ## Checking the Prediction Quality
 
@@ -85,26 +82,32 @@ mape(test_dataset$Umsatz, pred_test)
 ### Vorhersage für den 05 Juni 2019
 
 ```{r}
-
+# zusammenstellen des Datensatzes
 newdata <- (filter(full_dataset, Datum == "2019-06-05"))
 newdata['Wochentag'] <- "Mittwoch"
 newdata <-rbind(newdata, newdata[rep(1, 6), ])
 
 data <- filter(umsatzdaten, Datum == "2019-06-04")
+data2 <-filter(umsatzdaten,Datum == "2019-05-28")
 
-
+#Schleife um die Daten zusammenzu stellen
 for (i in (1:6)) {
   
   newdata$Warengruppe[[i]] <- i
   newdata$Vortagsumsatz[[i]] <- data$Umsatz[i]
+  newdata$Umsatz_Vorwoche[[i]] <- data2$Umsatz[i]
 }
 newdata$Vortagsumsatz[[6]] <- 0
+newdata$Umsatz_Vorwoche[[6]]<- 0
 ModelVars = which(names(newdata) %in% 
     c("Vortagsumsatz" ,"Temperatur" , "Warengruppe" , "Wertung" , "Wettercode" , "Bewoelkung" , "Windgeschwindigkeit" , "KielerWoche", "Umsatz_Vorwoche", "Wochentag"))
+
+newdata <- rbind(newdata[1,],data)
+newdata <- newdata[-1,]
+
 test2  = newdata[, ModelVars]
 
-
-#pred <- predict(svm_tune$best.model, test2)
+pred <- predict(svm_tune$best.model, test2)
 
 show(pred)
 ```
@@ -121,4 +124,3 @@ for (i in (1:6)){
 }
 
 ```
-
