@@ -46,7 +46,24 @@ umsatzdaten <- full_join(umsatzdaten,umsatzdaten3)
 umsatzdaten <- full_join(umsatzdaten,umsatzdaten4)
 umsatzdaten <- full_join(umsatzdaten,umsatzdaten5)
 umsatzdaten <- full_join(umsatzdaten,umsatzdaten6)
-#View(umsatzdaten)
+
+
+# Variable Umsatz der Vorwoche
+zumsatzdaten2 <- group_split(umsatzdaten,Warengruppe)
+
+Vorwoche1 <- mutate(zumsatzdaten2[[1]], Umsatz_Vorwoche = lag(Umsatz,7))
+Vorwoche2 <- mutate(zumsatzdaten2[[2]], Umsatz_Vorwoche = lag(Umsatz,7))
+Vorwoche3 <- mutate(zumsatzdaten2[[3]], Umsatz_Vorwoche = lag(Umsatz,7))
+Vorwoche4 <- mutate(zumsatzdaten2[[4]], Umsatz_Vorwoche = lag(Umsatz,7))
+Vorwoche5 <- mutate(zumsatzdaten2[[5]], Umsatz_Vorwoche = lag(Umsatz,7))
+Vorwoche6 <- mutate(zumsatzdaten2[[6]], Umsatz_Vorwoche = lag(Umsatz,7))
+
+umsatzdaten <- full_join(Vorwoche1,Vorwoche2)
+umsatzdaten <- full_join(umsatzdaten,Vorwoche3)
+umsatzdaten <- full_join(umsatzdaten,Vorwoche4)
+umsatzdaten <- full_join(umsatzdaten,Vorwoche5)
+umsatzdaten <- full_join(umsatzdaten,Vorwoche6)
+View(umsatzdaten)
 ```
 # Join der Datensätze 
 ```{r}
@@ -66,6 +83,7 @@ umsatzdaten <- full_join(umsatzdaten,kiwo, by = "Datum")
 #2 Feiertag mit weniger hoher Relevanz (Halloween), 
 #3 Feiertag mit kaum Relevanz (Himmelfahrt und Totensonntag), 
 #4 kein Feiertag
+#5 Erstetzen der N.A. Werte der ersten Woche für Umsatz_Vorwoche
 
 umsatzdaten$Wertung <- replace_na(umsatzdaten$Wertung,4)
 
@@ -96,14 +114,16 @@ mittelWertWettercode <- round(mean(umsatzdaten$Wettercode,na.rm = TRUE))
 
 umsatzdaten$Wettercode <- replace_na(umsatzdaten$Wettercode, mittelWertWettercode)
 
+# Ersetzen der N.A. Werte der ersten Woche für Umsatz_Vorwoche durch Umsatz
+
+umsatzdaten$Umsatz_Vorwoche[is.na(umsatzdaten$Umsatz_Vorwoche)] <- umsatzdaten$Umsatz[is.na(umsatzdaten$Umsatz_Vorwoche)]
+
+# Ersetzen des ersten N.A. Werts für Vortagsumsatz durch Umsatz
+
+umsatzdaten$Vortagsumsatz[is.na(umsatzdaten$Vortagsumsatz)] <- umsatzdaten$Umsatz[is.na(umsatzdaten$Vortagsumsatz)]
+
+
 full_dataset <- umsatzdaten
-
-# alle N.A von Vortagsumsatz löschen
-umsatzdaten <- filter(umsatzdaten, !is.na(Vortagsumsatz))
-
-umsatzdaten <- filter(arrange(umsatzdaten,Datum), !is.na(Umsatz))
-
-
 
 ```
 # Export der Daten als csv
