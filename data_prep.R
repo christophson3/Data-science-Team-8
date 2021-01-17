@@ -103,7 +103,7 @@ kiwo_dummies <- c('KielerWoche_0','KielerWoche_1')
 gruppen_dummies <- c('Warengruppe_1','Warengruppe_2','Warengruppe_3','Warengruppe_4','Warengruppe_5','Warengruppe_6')
 
 # Standardization of all variables (features and label)
-norm_list <- c("Umsatz","Windgeschwindigkeit","Wettercode","Vortagsumsatz","Bewoelkung","Temperatur",kiwo_dummies, wertung_dummies, gruppen_dummies) # list of all relevant variables
+norm_list <- c("Umsatz","Windgeschwindigkeit","Wettercode","Vortagsumsatz","Bewoelkung","Temperatur",kiwo_dummies, wertung_dummies, gruppen_dummies,"Umsatz_Vorwoche") # list of all relevant variables
 norm_values_list <- get.norm_values(umsatzdaten_dummy, norm_list)    # Calculation of the means and standard deviations
 umsatzdaten_norm = norm_cols(umsatzdaten_dummy, norm_values_list)   # Standardization of the variables
 
@@ -112,7 +112,7 @@ umsatzdaten_norm = norm_cols(umsatzdaten_dummy, norm_values_list)   # Standardiz
 ### Selection of the Feature Variables and the Label Variable ####
 
 # Selection of the features (the independent variables used to predict the dependent)
-features <- c('Windgeschwindigkeit','Wettercode', 'Vortagsumsatz', 'Bewoelkung','Temperatur', wertung_dummies,kiwo_dummies ,gruppen_dummies)
+features <- c('Windgeschwindigkeit','Wettercode', 'Vortagsumsatz', 'Bewoelkung','Temperatur', wertung_dummies,kiwo_dummies ,gruppen_dummies, 'Umsatz_Vorwoche')
 # Selection of the label (the dependent variable)
 label <- c('Umsatz')
 
