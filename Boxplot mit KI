@@ -1,44 +1,120 @@
+# 1. Load required R packages
+library(ggpubr)
+library(rstatix)
+
+#Load data
 library(readr)
-umsatzdaten <- read_csv("https://raw.githubusercontent.com/christophson3/Data-science-Team-8/main/umsatzdaten.csv",     col_types = cols(X1 = col_skip()))
-
-####Boxplot mit KI für Vortagsumsatz sowie Warengruppe####
-
-#daten zusammenfassen und als Graphen darstellen
-library(ggplot2)
-library(dplyr)
-
-cleandata <- umsatzdaten %>%
-  group_by(Warengruppe) %>%
-  summarize(mean_um = mean(Vortagsumsatz), sd_um = sd(Vortagsumsatz),
-            count = n(), se_um = (sd_um/sqrt(count)))
-View(cleandata)
-
-vum_wg_plot <- ggplot(cleandata, aes(x = Warengruppe, y=mean_um)) +
-  geom_bar(stat = "identity", color = "blue",
-           position = position_dodge()
-           ) +
-  geom_errorbar(aes(ymin = mean_um-se_um, ymax = mean_um + se_um), width = .3
-                ) +
-  theme_classic()
-
-vum_wg_plot
+umsatzdaten <- read_csv("https://raw.githubusercontent.com/christophson3/Data-science-Team-8/main/umsatzdaten.csv", 
+                        col_types = cols(X1 = col_skip()))
 
 
+#Data preparation
+df <- data.frame(umsatzdaten)
+df$Bewoelkung <- factor(df$Bewoelkung)
+df$Warengruppe <- factor(df$Warengruppe)
+is.data.frame(umsatzdaten)
 
 
-####Boxplot mit KI für Bewölkung sowie Umsatz####
-cleandata_wert <- umsatzdaten %>%
+#########################################################
+#Boxplot with CI: Umsatz je Bewölkungsgrad je Warengruppe
+
+#Statistical tests
+res.stats <- df %>%
   group_by(Bewoelkung) %>%
-  summarize(mean_u = mean(Umsatz), sd_u = sd(Umsatz),
-            count = n(), se_u = (sd_u/sqrt(count)))
-View(cleandata_wert)
+  t_test(Umsatz ~ Warengruppe) %>%
+  adjust_pvalue() %>%
+  add_significance()
+res.stats
 
-um_WT_plot <- ggplot(cleandata_wert, aes(x = Bewoelkung, y=mean_u)) +
-  geom_bar(stat = "identity", color = "red",
-           position = position_dodge()
-  ) +
-  geom_errorbar(aes(ymin = mean_u-se_u, ymax = mean_u + se_u), width = .3
-  ) +
-  theme_classic()
+#Create a stacked bar plot, add "mean_se" error bars
+p <- ggbarplot(
+  df, x = "Bewoelkung", y = "Umsatz", add = "mean_se",
+  color = "Warengruppe", palette = "jco"
+)
+p
 
-um_WT_plot
+#Add p-values to the bar plot using ggpubr verbs
+p + stat_pvalue_manual(
+  res.stats, x = "Bewoelkung", y.position = 150,
+  label = "p.adj.signif"
+)
+p
+
+
+#######################################################################
+#Boxplot with CI: Umsatz je gewertete Feiertagskategorie je Warengruppe
+
+#Statistical tests
+res.stats2 <- df %>%
+  group_by(Wertung) %>%
+  t_test(Umsatz ~ Warengruppe) %>%
+  adjust_pvalue() %>%
+  add_significance()
+res.stats2
+
+#Create a stacked bar plot, add "mean_se" error bars
+p2 <- ggbarplot(
+  df, x = "Wertung", y = "Umsatz", add = "mean_se",
+  color = "Warengruppe", palette = "jco"
+)
+p2
+
+#Add p-values to the bar plot using ggpubr verbs
+p2 + stat_pvalue_manual(
+  res.stats2, x = "Wertung", y.position = 150,
+  label = "p.adj.signif"
+)
+p2
+
+
+#######################################################################
+#Boxplot with CI: Umsatz wenn/wenn nicht KielerWoche(Ja=1 / Nein=0) je Warengruppe
+
+#Statistical tests
+res.stats3 <- df %>%
+  group_by(KielerWoche) %>%
+  t_test(Umsatz ~ Warengruppe) %>%
+  adjust_pvalue() %>%
+  add_significance()
+res.stats3
+
+#Create a stacked bar plot, add "mean_se" error bars
+p3 <- ggbarplot(
+  df, x = "KielerWoche", y = "Umsatz", add = "mean_se",
+  color = "Warengruppe", palette = "jco"
+)
+p3
+
+#Add p-values to the bar plot using ggpubr verbs
+p3 + stat_pvalue_manual(
+  res.stats3, x = "KielerWoche", y.position = 150,
+  label = "p.adj.signif"
+)
+p3
+
+
+#######################################################################
+#Optional
+#Boxplot with CI: Umsatz je Wochentag je Warengruppe
+
+#Statistical tests
+res.stats4 <- df %>%
+  group_by(Wochentag) %>%
+  t_test(Umsatz ~ Warengruppe) %>%
+  adjust_pvalue() %>%
+  add_significance()
+res.stats4
+
+#Create a stacked bar plot, add "mean_se" error bars
+p4 <- ggbarplot(
+  df, x = "Wochentag", y = "Umsatz", add = "mean_se",
+  color = "Warengruppe", palette = "jco"
+)
+p4
+
+#Add p-values to the bar plot using ggpubr verbs
+p4 + stat_pvalue_manual(
+  res.stats4, x = "Wochentag", y.position = 150,
+  label = "p.adj.signif"
+)
+p4
