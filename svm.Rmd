@@ -15,9 +15,10 @@ umsatzdaten <- read_csv("https://raw.githubusercontent.com/christophson3/Data-sc
 full_dataset <- read_csv("https://raw.githubusercontent.com/christophson3/Data-science-Team-8/main/full_dataset.csv", 
     col_types = cols(X1 = col_skip()))
 ```
+# Daten Aufbereitung
 
 ```{r}
-
+#Faktorisieren einzelner Variabeln sowohl im full_dataset als auch in umsatzdaten
 umsatzdaten$Warengruppe <- factor(umsatzdaten$Warengruppe)
 full_dataset$Warengruppe <- factor(full_dataset$Warengruppe)
 umsatzdaten$Wertung <- factor(umsatzdaten$Wertung)
@@ -38,23 +39,18 @@ indices_train <- sample(seq_len(nrow(umsatzdaten)), size = floor(0.80 * nrow(ums
 # Definition des Trainings- und Testdatensatz durch Selektion bzw. Deselektion der entsprechenden Datenzeilen
 train_dataset <- train_dataset_org <- umsatzdaten[indices_train, ]
 test_dataset <- umsatzdaten[-indices_train, ]
+# zum beheben eines Fehlers der aufgetreten ist 
 test_dataset = rbind(train_dataset[1,],test_dataset)
 test_dataset = test_dataset[-1,]
 
-```
-
-# Data Preparation
-```{r}
-# Uncomment the next line if you want to check the correctness of your following code for the svm estimation with a small (and computationally fast) part of the training data set
-#train_dataset <- sample_frac(train_dataset_org, .10)
 ```
 
 # Training the SVM
 
 
 ```{r}
-# Estimation of various SVM (each with optimized weighting parameters) using systematically varied hyper parameters (typically called 'grid search' approach) and cross validation
-# the resulting object includes the optimal model in the element named 'best.model'
+# alle nutzbaren Faktoren ergaben bei uns das beste Ergebnis
+# mit dem Wochentag drin hatten wir noch ein besseres Ergebnis, aber dann funktionierte die Schätzung für den 5.Juni nicht mehr
 svm_tune <- tune(svm, Umsatz ~ Vortagsumsatz + Temperatur + as.factor(Warengruppe) + as.factor(Wertung) + Umsatz_Vorwoche + Wettercode + Bewoelkung + Windgeschwindigkeit + as.factor(KielerWoche), data=train_dataset, ranges = list(epsilon = seq(0.2,1,0.1), cost = 2^(1:3)))
 ```
 ## Checking the Prediction Quality
@@ -84,29 +80,36 @@ mape(test_dataset$Umsatz, pred_test)
 ```{r}
 # zusammenstellen des Datensatzes
 newdata <- (filter(full_dataset, Datum == "2019-06-05"))
+
+# irgendwie ist der Wochentag verloren gegangen, deswegen fügen wir den händisch nochmal ein
 newdata['Wochentag'] <- "Mittwoch"
+
+# vervielfachen der Zeile für jede Warengruppe eine
 newdata <-rbind(newdata, newdata[rep(1, 6), ])
 
 data <- filter(umsatzdaten, Datum == "2019-06-04")
 data2 <-filter(umsatzdaten,Datum == "2019-05-28")
 
-#Schleife um die Daten zusammenzu stellen
+#Schleife um die Daten zusammen zu stellen
 for (i in (1:6)) {
   
   newdata$Warengruppe[[i]] <- i
   newdata$Vortagsumsatz[[i]] <- data$Umsatz[i]
   newdata$Umsatz_Vorwoche[[i]] <- data2$Umsatz[i]
 }
-newdata$Vortagsumsatz[[6]] <- 0
-newdata$Umsatz_Vorwoche[[6]]<- 0
+# in unserem Modell ergibt eine Schätzung für die Warengruppe 6 für den 5.Juni keinen Sinn
+
+# es gab einen fehler obwohl es keine NA im Datensatz gab und wir alle Variablen reingepackt haben, also haben wir uns hier entschieden nochmal die Variabeln explizit aufzuführen
 ModelVars = which(names(newdata) %in% 
     c("Vortagsumsatz" ,"Temperatur" , "Warengruppe" , "Wertung" , "Wettercode" , "Bewoelkung" , "Windgeschwindigkeit" , "KielerWoche", "Umsatz_Vorwoche", "Wochentag"))
 
+# das hat einen Fehler behoben
 newdata <- rbind(newdata[1,],data)
 newdata <- newdata[-1,]
 
 test2  = newdata[, ModelVars]
 
+#das ist die Vorhersage
 pred <- predict(svm_tune$best.model, test2)
 
 show(pred)
@@ -114,7 +117,7 @@ show(pred)
 
 ### MAPE je Warengruppe
 ```{r}
-listofmape <- vector(mode = "list", 6)
+# die Schleife geht durch alle Warengruppen durch
 for (i in (1:6)){
   pred_test <- predict(svm_tune$best.model, filter(test_dataset, Warengruppe == i))
   lala <- filter(test_dataset,Warengruppe == i)
@@ -124,3 +127,4 @@ for (i in (1:6)){
 }
 
 ```
+
