@@ -75,22 +75,24 @@ umsatzdaten <- read_csv("https://raw.githubusercontent.com/christophson3/Data-sc
 full_dataset <- read_csv("https://raw.githubusercontent.com/christophson3/Data-science-Team-8/main/full_dataset.csv", 
                          col_types = cols(X1 = col_skip()))
 
-
+# hier schon die Datenaufbereitung für die Vorhersage des 5.Juni
 newdata <- (filter(full_dataset, Datum == "2019-06-05"))
 newdata['Wochentag'] <- "Mittwoch"
-newdata <-rbind(newdata, newdata[rep(1, 5), ])
+newdata <-rbind(newdata, newdata[rep(1, 4), ])
 
 data <- filter(umsatzdaten, Datum == "2019-06-04")
 
 
-for (i in (1:6)) {
+for (i in (1:5)) {
   
   newdata$Warengruppe[[i]] <- i
   newdata$Vortagsumsatz[[i]] <- data$Umsatz[i]
 }
-newdata$Vortagsumsatz[[6]] <- 0
+
+
 ###################################################
 ### Data Preparation ####
+#zusammenführung der daten damit die Datenaufbereitung gleich ist
 umsatzdaten <- rbind(umsatzdaten,newdata)
 
 # Recoding of the variables into one-hot encoded (dummy) variables
@@ -116,7 +118,10 @@ features <- c('Windgeschwindigkeit','Wettercode', 'Vortagsumsatz', 'Bewoelkung',
 # Selection of the label (the dependent variable)
 label <- c('Umsatz')
 
+# nur die Daten für den 5.Juni
 newdata <- filter(umsatzdaten_norm, Datum == "2019-06-05")
+
+# alle anderen Daten
 umsatzdaten_norm <- filter(umsatzdaten_norm, Datum != "2019-06-05")
 umsatzdaten <- filter(umsatzdaten, Datum!= "2019-06-05")
 
@@ -131,10 +136,10 @@ train_ind <- sample(seq_len(nrow(umsatzdaten_norm)), size = floor(0.66 * nrow(um
 # Splitting the data into training and validation data and selecting the feature variables as a separate data frame
 train_dataset <- umsatzdaten_norm[train_ind, features]
 test_dataset  <- umsatzdaten_norm[-train_ind, features]
+# daten des 5.Juni
 newdata_dataset <- newdata[,features]
 # Splitting the data into training and validation data and selecting the label variable as a separate vector
 train_labels <- umsatzdaten_norm[train_ind, label]
 test_labels <- umsatzdaten_norm[-train_ind, label]
-
 
 
