@@ -81,12 +81,13 @@ newdata['Wochentag'] <- "Mittwoch"
 newdata <-rbind(newdata, newdata[rep(1, 4), ])
 
 data <- filter(umsatzdaten, Datum == "2019-06-04")
-
+data2 <- filter(umsatzdaten, Datum == "2019-05-28" )
 
 for (i in (1:5)) {
   
   newdata$Warengruppe[[i]] <- i
   newdata$Vortagsumsatz[[i]] <- data$Umsatz[i]
+  newdata$Umsatz_Vorwoche[[i]] <-data2$Umsatz[i]
 }
 
 
